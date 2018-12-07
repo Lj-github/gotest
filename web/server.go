@@ -15,4 +15,5 @@ func main() {
 		return c.String(http.StatusOK, "aaaaaaaaaa!")
 	})
 	e.Logger.Fatal(e.Start(":1323"))
+	print("localhost:")
 }
