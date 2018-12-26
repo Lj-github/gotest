@@ -102,9 +102,9 @@ func main() {
 	})
 
 	e.GET("/sql", func(c echo.Context) error {
-		var sql = "dasa"
-		println("sql get")
-		return c.String(http.StatusOK, sql)
+		content := c.FormValue("username")
+		loger.Output(2, content)
+		return c.String(http.StatusOK, content)
 	})
 
 	e.GET("/sql1", func(c echo.Context) error {
@@ -113,8 +113,7 @@ func main() {
 
 	// Named route "foobar"
 	e.GET("/index", func(c echo.Context) error {
-		//id := c.Param("username")  // get  可以这样使用
-		//_ = id
+
 		loger.Output(2, "index")
 		// rander  里面的HTML 需要 写 后缀
 		return c.Render(http.StatusOK, "index.html", "World")
