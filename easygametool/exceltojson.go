@@ -1,7 +1,0 @@
-package easygametool
-
-func main() {
-
-
-
-}

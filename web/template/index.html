@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="/jquery-3.3.1.js" ></script>
+</head>
+<body>
+<script>
+    // 测试 go 传输 性能
+    var all = []
+
+    function getStr() {
+        var str = ''
+        var eng = 'qwertyuiopasdfghjklzxcvbnm'.split("")
+        for (var i = 0; i < 200000; i++) {
+            str = eng[Math.floor(Math.random() * 26)] + str
+        }
+        return str
+    }
+    var idx = 0
+    function post(id, cont) {
+        $.ajax({
+            type: "POST",
+            url: "http://192.168.1.214:1323/post",
+            data: {username: idx, content: cont},
+            dataType: "json",
+            success: function (data) {
+                if (data.status == "success") {
+                    delete all[0]
+                    all = all.splice(1, all.length)
+                    idx = idx + 1
+                    if (all.length > 0) {
+                        isBegin = true
+                        post(idx, all[0])
+                    } else {
+                        isBegin = false
+                    }
+                }
+            },
+            error:function(err){
+                console.error("post fail stop timer")
+                stop()
+            },
+            //回收 主动
+            complete: function (XHR, TS) {
+                XHR = null
+            }
+        });
+    }
+
+    var FPS = 30 //使用30 fps 比较合适  直接能成功
+
+    var isBegin = false
+    var time = new Date()
+    console.log("开始时间 " + time.getSeconds() + "s")
+    var old = 0
+    var timer
+    var count = 0
+    var begin = function () {
+        timer = setInterval(function () {
+            all.push(getStr())
+            count++
+            if (!isBegin) {
+                post(idx, all[0])
+            }
+            if (count % 60 === 0) {
+                console.log("运行时间 " + new Date().getSeconds() + " 秒")
+                console.log("数量差值 " + (count - old) + " 次数")
+                old = count
+            }
+        }, 1000 / FPS)
+    }
+    var stop = function () {
+        clearInterval(timer)
+    }
+
+
+
+
+</script>
+</body>
+</html>
