@@ -136,16 +136,19 @@ func main() {
 		return  json.NewEncoder(context.Response()).Encode(u)
 	})
 
-	//cao  最后这句话  必须放在最后一行  要不不执行
-	e.Logger.Fatal(e.Start(":1323"))
-
 	// d3  js  数据 可视化  展示
 	// html  d3 demo
 	e.GET("/d3demo", func(c echo.Context) error {
 		return c.Render(http.StatusOK, "d3.html", "d3demo")
 	})
 
+sta
 
 
 
+
+
+
+	//cao  最后这句话  必须放在最后一行  要不不执行
+	e.Logger.Fatal(e.Start(":1323"))
 }
