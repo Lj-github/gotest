@@ -142,7 +142,7 @@ func main() {
 		return c.Render(http.StatusOK, "d3.html", "d3demo")
 	})
 
-sta
+
 
 
 
