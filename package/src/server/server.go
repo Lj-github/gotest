@@ -116,7 +116,7 @@ func main() {
 
 		loger.Output(2, "index")
 		// rander  里面的HTML 需要 写 后缀
-		return c.Render(http.StatusOK, "d3.html", "World")
+		return c.Render(http.StatusOK, "index.html", "World")
 	})
 
 	//uitl.SaveFile(txtFIle+"dsa.txt", "dsdsds")

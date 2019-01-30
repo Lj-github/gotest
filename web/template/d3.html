@@ -11,25 +11,25 @@
 
 <script>
     //按照 需求  制作 坐标 可以做 多个 线
-    const henzuobiao = []
-    const zongzuibiao = []
+    let henzuobiao = Array.apply(0, Array(31)).map(function (item, i) {
+        i++;
+        return {date: '2013-12-' + (i < 10 ? '0' + i : i), pv: parseInt(Math.random() * 100)}
+    });
 
+    let zongzuibiao = []
+
+
+    let margin = {top: 20, right: 20, bottom: 30, left: 50}
 
     //线条
-    const lines = [
-
-
-            ]
+    let lines = [];
+    const  TITLE = '2013年12月PV'
 
 
     ;(function () {
         'use strict';
 
-        var data = Array.apply(0, Array(31)).map(function (item, i) {
-            i++;
-            return {date: '2013-12-' + (i < 10 ? '0' + i : i), pv: parseInt(Math.random() * 100)}
-        });
-
+        var data = henzuobiao
         // 定义circle的半径
         var r0 = 5,
                 r1 = 8;
@@ -38,7 +38,7 @@
         var duration = 5000;
 
         var margin = {top: 20, right: 20, bottom: 30, left: 50},
-                width = document.body.clientWidth - margin.left - margin.right,
+                width = document.body.clientWidth ,
                 height = 500 - margin.top - margin.bottom;
 
         var parseDate = d3.time.format('%Y-%m-%d').parse;
@@ -61,8 +61,8 @@
                 //   return date < 10 ? '0' + date : date;
                 // })
                 // 相同的效果
-                .tickFormat(d3.time.format('%d'))
-                .ticks(30);
+                .tickFormat(d3.time.format('%Y-%m-%d'))
+                .ticks(30)
 
         var yAxis = d3.svg.axis()
                 .scale(y)
@@ -106,9 +106,7 @@
         setInterval(function () {
 
 
-
-        },1000)
-
+        }, 1000)
 
 
         //show();
@@ -139,7 +137,7 @@
 
                 svg.append('text')
                         .attr('class', 'title')
-                        .text('2013年12月PV')
+                        .text(TITLE)
                         .attr('x', width / 2)
                         .attr('y', 0);
 
@@ -214,18 +212,14 @@
                         .attr('y', 40)
                         .text('');
 
-                container
-                        .on('mousemove', function () {
-                            var m = d3.mouse(this),
-                                    cx = m[0] - margin.left;
-
-                            showWording(cx);
-
-                            d3.select('.tips').style('display', 'block');
-                        })
-                        .on('mouseout', function () {
-                            d3.select('.tips').style('display', 'none');
-                        });
+                container.on('mousemove', function () {
+                    var m = d3.mouse(this),
+                            cx = m[0] - margin.left;
+                    showWording(cx);
+                    d3.select('.tips').style('display', 'block');
+                }).on('mouseout', function () {
+                    d3.select('.tips').style('display', 'none');
+                });
 
 
                 function redrawLine(cx, cy) {
@@ -286,6 +280,13 @@
     })();
 
     console.log("tete")
+
+
+    d3.selectAll("g.x g.tick text")
+            .attr("x", -0)
+            .attr("transform", "rotate(-30)");
+
+
 
 </script>
 </body>
