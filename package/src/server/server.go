@@ -11,6 +11,7 @@ import (
 	"html/template"
 	"server/uitl"
 	"encoding/json"
+	"golang.org/x/net/context"
 )
 
 //数据库配置
@@ -58,7 +59,53 @@ type PostContext struct {
 }
 
 func main() {
+	e := createServer()
+	e.GET("/shut", func(c echo.Context) error {
+		e2 :=createServer()
+		addShuutdown(e2,e)
+		return c.Render(http.StatusOK, "d3.html", "d3demo")
+	})
+	e.Logger.Fatal(e.Start(":1323"))
+}
 
+func addShuutdown(e * echo.Echo,olde * echo.Echo){
+	olde.Shutdown(context.Background())
+	olde = nil
+
+	e.GET("/shut", func(c echo.Context) error {
+		//ctx, _ := context.WithTimeout(context.Background(), 20*time.Second)
+		e2 :=createServer()
+		addShuutdown(e2,e)
+		return c.Render(http.StatusOK, "d3.html", "d3demo")
+	})
+	e.Logger.Fatal(e.Start(":1323"))
+
+
+
+}
+
+func handler()  {
+	for {
+		log.Printf("signal: %v")
+		//ctx, _ := context.WithTimeout(context.Background(), 20*time.Second)
+		//switch sig {
+		//case syscall.SIGINT, syscall.SIGTERM:
+		//
+		//	return
+		//case syscall.SIGUSR2:
+		//	// reload
+		//	log.Printf("reload")
+		//
+		//
+		//	log.Printf("graceful reload")
+		//	return
+		//}
+	}
+}
+
+
+
+func createServer()( * echo.Echo)  {
 	logFile, _ := os.Create(logFIle + time.Now().Format("20060102") + ".log");
 
 	//创建一个Logger
@@ -79,6 +126,7 @@ func main() {
 	//loger.Panic("我是错误");
 
 	//其实是可以直接作为接口 使用的  可以直接 连接 sql  直接 获取数据  test
+
 	var sdds = "taatta"
 	_ = sdds
 	e := echo.New()
@@ -142,13 +190,8 @@ func main() {
 		return c.Render(http.StatusOK, "d3.html", "d3demo")
 	})
 
-
-
-
-
-
-
-
 	//cao  最后这句话  必须放在最后一行  要不不执行
-	e.Logger.Fatal(e.Start(":1323"))
+	//e.Logger.Fatal(e.Start(":1323"))
+
+	return e
 }
