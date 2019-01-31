@@ -65,6 +65,7 @@ func main() {
 		addShuutdown(e2,e)
 		return c.Render(http.StatusOK, "d3.html", "d3demo")
 	})
+	handler()
 	e.Logger.Fatal(e.Start(":1323"))
 }
 
@@ -83,24 +84,37 @@ func addShuutdown(e * echo.Echo,olde * echo.Echo){
 
 
 }
+var (
+	server * echo.Echo
+	//graceful = flag.Bool("graceful", false, "listen on fd open 3 (internal use only)")
+)
+
 
 func handler()  {
-	for {
-		log.Printf("signal: %v")
-		//ctx, _ := context.WithTimeout(context.Background(), 20*time.Second)
-		//switch sig {
-		//case syscall.SIGINT, syscall.SIGTERM:
-		//
-		//	return
-		//case syscall.SIGUSR2:
-		//	// reload
-		//	log.Printf("reload")
-		//
-		//
-		//	log.Printf("graceful reload")
-		//	return
-		//}
-	}
+	//todo 添加 热重启
+	//ch := make(chan os.Signal, 1)
+
+	//for {
+	//	log.Printf("signal: %v")
+	//	//sig := <-ch
+	//	//
+	//	//log.Printf("signal: %v")
+	//	//ctx, _ := context.WithTimeout(context.Background(), 20*time.Second)
+	//	//switch sig {
+	//	//case syscall.SIGINT, syscall.SIGTERM:
+	//	//	log.Printf("stop")
+	//	//	signal.Stop(ch)
+	//	//	server.Shutdown(ctx)
+	//	//	log.Printf("graceful shutdown")
+	//	//	return
+	//	//case syscall.SIGUSR2:
+	//	//	// reload
+	//	//	log.Printf("reload")
+	//	//	server.Shutdown(ctx)
+	//	//	log.Printf("graceful reload")
+	//	//	return
+	//	//}
+	//}
 }
 
 
